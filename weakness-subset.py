@@ -14,5 +14,13 @@ def promptForTeam():
 
     return team
 
+def getTypes(team):
+    teamWithTypes = {}
+    for poke in team:
+        teamWithTypes[poke] = ["Type1", "Type2"]
+
+    return teamWithTypes
+
 intro()
 team = promptForTeam()
+teamWithTypes = getTypes(team)
