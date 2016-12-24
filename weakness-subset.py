@@ -1,0 +1,1 @@
+print("****Weakness Subset Calculator****")
