@@ -34,7 +34,7 @@ def getTypes(team):
 
         print("Retrieved response! {}".format(jResponse))
 
-        curTypes = jResponse.types
+        curTypes = jResponse["types"]
 
         teamWithTypes[poke] = curTypes
 
