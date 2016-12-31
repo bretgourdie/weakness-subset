@@ -1,7 +1,7 @@
 import requests, sys
 baseUrl = "https://pokeapi.co/"
 
-def determineTypesSummation(teamWithTypes):
+def determineTypesByPoke(teamWithTypes):
     typesByPoke = {}
     for poke in teamWithTypes:
         typesByPoke[poke] = []
@@ -71,6 +71,6 @@ teamWithTypes = getTypes(team)
 if not teamsAndTypesMatch(team, teamWithTypes):
     sys.exit("teamsAndTypesMatch(team, teamWithTypes) Error: len(team) = {} != len(teamWithTypes) = {}".format(len(team), len(teamWithTypes)))
 
-typesByPoke = determinetypesByPoke(teamWithTypes)
+typesByPoke = determineTypesByPoke(teamWithTypes)
 
 print(typesByPoke)
