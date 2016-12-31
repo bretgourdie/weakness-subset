@@ -1,4 +1,4 @@
-import requests
+import requests, sys
 baseUrl = "https://pokeapi.co/"
 
 def intro():
@@ -43,6 +43,7 @@ def teamsAndTypesMatch(team, teamWithTypes):
 
 intro()
 team = promptForTeam()
+
 teamWithTypes = getTypes(team)
 if not teamsAndTypesMatch(team, teamWithTypes):
-    print("teamsAndTypesMatch(team, teamWithTypes) Error: len(team) = {} != len(teamWithTypes) = {}".format(len(team), len(teamWithTypes)))
+    sys.exit("teamsAndTypesMatch(team, teamWithTypes) Error: len(team) = {} != len(teamWithTypes) = {}".format(len(team), len(teamWithTypes)))
