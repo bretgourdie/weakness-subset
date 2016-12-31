@@ -2,9 +2,9 @@ import requests, sys
 baseUrl = "https://pokeapi.co/"
 
 def determineTypesSummation(teamWithTypes):
-    typesSummation = {}
+    typesByPoke = {}
     for poke in teamWithTypes:
-        typesSummation[poke] = []
+        typesByPoke[poke] = []
         for typeDef in teamWithTypes[poke]:
             typeAttributes = typeDef["type"]
             typeName = typeAttributes["name"]
@@ -13,15 +13,15 @@ def determineTypesSummation(teamWithTypes):
             response = requests.get(typeUrl)
             
             if response.status_code != 200:
-                print("determineTypesSummation(teamWithTypes, typesSummation) Error: status code {} for type \"{}\" for Pokemon \"{}\"".format(typeName, poke))
+                print("determineTypesSummation(teamWithTypes, typesByPoke) Error: status code {} for type \"{}\" for Pokemon \"{}\"".format(typeName, poke))
             
             else:
                 jResponse = response.json()
                 curType = jResponse["name"]
                 relations = jResponse["damage_relations"]
-                typesSummation[poke].append(relations)
+                typesByPoke[poke].append(relations)
     
-    return typesSummation
+    return typesByPoke
 
 
 def intro():
@@ -71,6 +71,6 @@ teamWithTypes = getTypes(team)
 if not teamsAndTypesMatch(team, teamWithTypes):
     sys.exit("teamsAndTypesMatch(team, teamWithTypes) Error: len(team) = {} != len(teamWithTypes) = {}".format(len(team), len(teamWithTypes)))
 
-typesSummation = determineTypesSummation(teamWithTypes)
+typesByPoke = determinetypesByPoke(teamWithTypes)
 
-print(typesSummation)
+print(typesByPoke)
