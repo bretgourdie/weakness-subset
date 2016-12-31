@@ -1,6 +1,29 @@
 import requests, sys
 baseUrl = "https://pokeapi.co/"
 
+def determineTypesSummation(teamWithTypes):
+    typesSummation = {}
+    for poke in teamWithTypes:
+        typesSummation[poke] = []
+        for typeDef in teamWithTypes[poke]:
+            typeAttributes = typeDef["type"]
+            typeName = typeAttributes["name"]
+            typeUrl = typeAttributes["url"]
+            
+            response = requests.get(typeUrl)
+            
+            if response.status_code != 200:
+                print("determineTypesSummation(teamWithTypes, typesSummation) Error: status code {} for type \"{}\" for Pokemon \"{}\"".format(typeName, poke))
+            
+            else:
+                jResponse = response.json()
+                curType = jResponse["name"]
+                relations = jResponse["damage_relations"]
+                typesSummation[poke].append(relations)
+    
+    return typesSummation
+
+
 def intro():
     print("****Weakness Subset Calculator****")
 
@@ -47,3 +70,7 @@ team = promptForTeam()
 teamWithTypes = getTypes(team)
 if not teamsAndTypesMatch(team, teamWithTypes):
     sys.exit("teamsAndTypesMatch(team, teamWithTypes) Error: len(team) = {} != len(teamWithTypes) = {}".format(len(team), len(teamWithTypes)))
+
+typesSummation = determineTypesSummation(teamWithTypes)
+
+print(typesSummation)
