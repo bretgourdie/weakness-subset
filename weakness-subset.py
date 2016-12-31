@@ -4,12 +4,14 @@ baseUrl = "https://pokeapi.co/"
 def determineTypesByPoke(teamWithTypes):
     typesByPoke = {}
     for poke in teamWithTypes:
+        print("Finding type info for \"{}\"".format(poke))
         typesByPoke[poke] = []
         for typeDef in teamWithTypes[poke]:
             typeAttributes = typeDef["type"]
             typeName = typeAttributes["name"]
             typeUrl = typeAttributes["url"]
             
+            print("\tFinding type \"{}\"".format(typeName))
             response = requests.get(typeUrl)
             
             if response.status_code != 200:
