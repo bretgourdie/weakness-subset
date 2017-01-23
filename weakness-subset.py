@@ -78,9 +78,11 @@ intro()
 team = promptForTeam()
 
 teamWithTypes = getTypes(team)
-if not teamsAndTypesMatch(team, teamWithTypes):
-    sys.exit("teamsAndTypesMatch(team, teamWithTypes) Error: len(team) = {} != len(teamWithTypes) = {}".format(len(team), len(teamWithTypes)))
+if teamsAndTypesMatch(team, teamWithTypes):
+    typesByPoke = determineTypesByPoke(teamWithTypes)
 
-typesByPoke = determineTypesByPoke(teamWithTypes)
+    print(typesByPoke)
+else:
+    print("teamsAndTypesMatch(team, teamWithTypes) Error: len(team) = {} != len(teamWithTypes) = {}".format(len(team), len(teamWithTypes)))
 
-print(typesByPoke)
+
