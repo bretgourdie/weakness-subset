@@ -17,8 +17,8 @@ def determineTypesByPoke(teamWithTypes):
             except requests.exceptions.ConnectionError as error:
                 print("determineTypesByPoke(teamWithTypes) Error: exception {} for type \"{}\" for Pokemon \"{}\"".format(error, typeName, poke))
             
-            if response.status_code != 200:
-                print("determineTypesSummation(teamWithTypes, typesByPoke) Error: status code {} for type \"{}\" for Pokemon \"{}\"".format(typeName, poke))
+            if response.status_code != requests.codes.ok:
+                print("determineTypesSummation(teamWithTypes, typesByPoke) Error: status code {} for type \"{}\" for Pokemon \"{}\"".format(response.status_code, typeName, poke))
             
             else:
                 jResponse = response.json()
@@ -59,7 +59,7 @@ def getTypes(team):
             print("getTypes(team) Error: exception {} for Pokemon \"{}\"".format(error, poke))
             break
 
-        if response.status_code != 200:
+        if response.status_code != requests.codes.ok:
             print("getTypes(team) Error: status code {} for Pokemon \"{}\"".format(
                 response.status_code, poke))
             break
