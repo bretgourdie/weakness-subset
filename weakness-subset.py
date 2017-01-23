@@ -22,9 +22,10 @@ def determineTypesByPoke(teamWithTypes):
             
             else:
                 jResponse = response.json()
-                curType = jResponse["name"]
-                relations = jResponse["damage_relations"]
-                typesByPoke[poke].append(relations)
+                dTypeInfo = {}
+                dTypeInfo["name"] = jResponse["name"]
+                dTypeInfo["damage_relations"] = jResponse["damage_relations"]
+                typesByPoke[poke].append(dTypeInfo)
     
     return typesByPoke
 
@@ -82,6 +83,7 @@ if teamsAndTypesMatch(team, teamWithTypes):
     typesByPoke = determineTypesByPoke(teamWithTypes)
 
     print(typesByPoke)
+
 else:
     print("teamsAndTypesMatch(team, teamWithTypes) Error: len(team) = {} != len(teamWithTypes) = {}".format(len(team), len(teamWithTypes)))
 
