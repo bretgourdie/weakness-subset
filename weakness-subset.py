@@ -5,6 +5,47 @@ sDamage = "damage_relations"
 sType = "type"
 sTypes = "types"
 sUrl = "url"
+sHalf = "half_damage_from"
+sDouble = "double_damage_from"
+sNo = "no_damage_from"
+
+lAllTypes = ["normal",
+             "fire",
+             "fighting",
+             "water",
+             "flying",
+             "grass",
+             "poison",
+             "electric",
+             "ground",
+             "psychic",
+             "rock",
+             "ice",
+             "bug",
+             "dragon",
+             "ghost",
+             "dark",
+             "steel",
+             "fairy"]
+
+def calculateWeaknessByPoke(typesByPoke):
+    dWeaknessByPoke = {}
+
+    for poke, typeInfo in typesByPoke.items():
+        dPokeWeakness = {}
+
+        # this is wrong
+        for oneTypeInfo in typeInfo:
+            name = oneTypeInfo[sName].lower()
+
+            for relation in oneTypeInfo:
+                if relation == sHalf:
+                    dPokeWeakness[name] /= 2
+                elif relation == sDouble:
+                    dPokeWeakness[name] *= 2
+                elif relation == sNo:
+                    dPokeWeakness[name] *= 0
+
 
 def determineTypesByPoke(teamWithTypes):
     typesByPoke = {}
@@ -87,7 +128,7 @@ teamWithTypes = getTypes(team)
 if teamsAndTypesMatch(team, teamWithTypes):
     typesByPoke = determineTypesByPoke(teamWithTypes)
 
-    print(typesByPoke)
+    dByPoke = calculateWeaknessByPoke(typesByPoke)
 
 else:
     print("teamsAndTypesMatch(team, teamWithTypes) Error: len(team) = {} != len(teamWithTypes) = {}".format(len(team), len(teamWithTypes)))
