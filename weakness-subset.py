@@ -1,5 +1,10 @@
 import requests, sys
 baseUrl = "https://pokeapi.co/"
+sName = "name"
+sDamage = "damage_relations"
+sType = "type"
+sTypes = "types"
+sUrl = "url"
 
 def determineTypesByPoke(teamWithTypes):
     typesByPoke = {}
@@ -7,9 +12,9 @@ def determineTypesByPoke(teamWithTypes):
         print("Finding type info for \"{}\"".format(poke))
         typesByPoke[poke] = []
         for typeDef in teamWithTypes[poke]:
-            typeAttributes = typeDef["type"]
-            typeName = typeAttributes["name"]
-            typeUrl = typeAttributes["url"]
+            typeAttributes = typeDef[sType]
+            typeName = typeAttributes[sName]
+            typeUrl = typeAttributes[sUrl]
             
             print("\tFinding type \"{}\"".format(typeName))
             try:
@@ -23,8 +28,8 @@ def determineTypesByPoke(teamWithTypes):
             else:
                 jResponse = response.json()
                 dTypeInfo = {}
-                dTypeInfo["name"] = jResponse["name"]
-                dTypeInfo["damage_relations"] = jResponse["damage_relations"]
+                dTypeInfo[sName] = jResponse[sName]
+                dTypeInfo[sDamage] = jResponse[sDamage]
                 typesByPoke[poke].append(dTypeInfo)
     
     return typesByPoke
@@ -66,7 +71,7 @@ def getTypes(team):
 
         jResponse = response.json()
 
-        curTypes = jResponse["types"]
+        curTypes = jResponse[sTypes]
 
         teamWithTypes[poke] = curTypes
 
