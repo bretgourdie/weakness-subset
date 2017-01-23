@@ -12,7 +12,10 @@ def determineTypesByPoke(teamWithTypes):
             typeUrl = typeAttributes["url"]
             
             print("\tFinding type \"{}\"".format(typeName))
-            response = requests.get(typeUrl)
+            try:
+                response = requests.get(typeUrl)
+            except requests.exceptions.ConnectionError as error:
+                print("determineTypesByPoke(teamWithTypes) Error: exception {} for type \"{}\" for Pokemon \"{}\"".format(error, typeName, poke))
             
             if response.status_code != 200:
                 print("determineTypesSummation(teamWithTypes, typesByPoke) Error: status code {} for type \"{}\" for Pokemon \"{}\"".format(typeName, poke))
