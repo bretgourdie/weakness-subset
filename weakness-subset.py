@@ -48,8 +48,13 @@ def getTypes(team):
     for poke in team:
         print("Retrieving {}...".format(poke))
         lPoke = str.lower(poke)
-        response = requests.get(url.format(lPoke))
         
+        try:
+            response = requests.get(url.format(lPoke))
+        except requests.exceptions.ConnectionError as error:
+            print("getTypes(team) Error: exception {} for Pokemon \"{}\"".format(error, poke))
+            break
+
         if response.status_code != 200:
             print("getTypes(team) Error: status code {} for Pokemon \"{}\"".format(
                 response.status_code, poke))
