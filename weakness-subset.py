@@ -9,25 +9,6 @@ sHalf = "half_damage_from"
 sDouble = "double_damage_from"
 sNo = "no_damage_from"
 
-lAllTypes = ["normal",
-             "fire",
-             "fighting",
-             "water",
-             "flying",
-             "grass",
-             "poison",
-             "electric",
-             "ground",
-             "psychic",
-             "rock",
-             "ice",
-             "bug",
-             "dragon",
-             "ghost",
-             "dark",
-             "steel",
-             "fairy"]
-
 def calculateWeaknessByPoke(typesByPoke):
     dWeaknessByPoke = {}
 
