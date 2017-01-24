@@ -1,4 +1,4 @@
-import requests, sys, operator
+import requests, operator
 baseUrl = "https://pokeapi.co/"
 sName = "name"
 sDamage = "damage_relations"
