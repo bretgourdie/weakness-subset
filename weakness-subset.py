@@ -131,28 +131,30 @@ def quickFacts(dRankedWeaknessesByPoke):
     dImmuneTypesByPoke = getImmuneTypes(dRankedWeaknessesByPoke)
     printImmuneQuickFacts(dImmuneTypesByPoke)
 
+def getTargetScore(dRankedWeaknessesByPoke, piScore):
+    dTypesByPoke = {}
+
+    for poke, lScoresByTypes in dRankedWeaknessesByPoke.items():
+        lTypes = []
+
+        for tScoreByType in lScoresByTypes:
+            sType, iScore = tScoreByType
+
+            if iScore == piScore and sType not in lTypes:
+                lTypes.append(sType)
+
+        if len(lTypes) > 0:
+            dTypesByPoke[poke] = lTypes
+
+    return dTypesByPoke
+
 def printImmuneQuickFacts(dImmuneTypesByPoke):
     for sPoke, lImmuneTypes in dImmuneTypesByPoke.items():
         if len(lImmuneTypes) > 0:
             print("{} is immune to {} moves".format(sPoke, ", ".join(lImmuneTypes)))
 
 def getImmuneTypes(dRankedWeaknessesByPoke):
-    dImmuneTypesByPoke = {}
-
-    for poke, lScoresByTypes in dRankedWeaknessesByPoke.items():
-        lImmuneTypes = []
-
-        for tScoreByType in lScoresByTypes:
-            sType, iScore = tScoreByType
-
-            if iScore == 0 and sType not in lImmuneTypes:
-                lImmuneTypes.append(sType)
-
-        if len(lImmuneTypes) > 0:
-            dImmuneTypesByPoke[poke] = lImmuneTypes
-
-    return dImmuneTypesByPoke
-
+    return getTargetScore(dRankedWeaknessesByPoke, 0)
 
 intro()
 team = promptForTeam()
