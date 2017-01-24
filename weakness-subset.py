@@ -1,4 +1,4 @@
-import requests, sys
+import requests, sys, operator
 baseUrl = "https://pokeapi.co/"
 sName = "name"
 sDamage = "damage_relations"
@@ -8,6 +8,15 @@ sUrl = "url"
 sHalf = "half_damage_from"
 sDouble = "double_damage_from"
 sNo = "no_damage_from"
+
+def rankWeaknesses(dWeaknessByPoke):
+    dRankedSorted = {}
+
+    for poke, dWeaknesses in dWeaknessByPoke.items():
+        lSorted = sorted(dWeaknesses.items(), key=operator.itemgetter(1), reverse=True)
+        dRankedSorted[poke] = lSorted
+
+    return dRankedSorted
 
 def calculateWeaknessByPoke(typesByPoke):
     dWeaknessByPoke = {}
@@ -123,6 +132,10 @@ if teamsAndTypesMatch(team, teamWithTypes):
     typesByPoke = determineTypesByPoke(teamWithTypes)
 
     dByPoke = calculateWeaknessByPoke(typesByPoke)
+
+    dRanked = rankWeaknesses(dByPoke)
+
+    print(dRanked)
 
 else:
     print("teamsAndTypesMatch(team, teamWithTypes) Error: len(team) = {} != len(teamWithTypes) = {}".format(len(team), len(teamWithTypes)))
