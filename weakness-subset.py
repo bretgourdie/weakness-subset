@@ -131,6 +131,9 @@ def quickFacts(dRankedWeaknessesByPoke):
     dImmuneTypesByPoke = getImmuneTypes(dRankedWeaknessesByPoke)
     printImmuneQuickFacts(dImmuneTypesByPoke)
 
+    dFourTimesWeakByPoke = getFourTimesTypes(dRankedWeaknessesByPoke)
+    printFourTimesQuickFacts(dFourTimesWeakByPoke)
+
 def getTargetScore(dRankedWeaknessesByPoke, piScore):
     dTypesByPoke = {}
 
@@ -153,6 +156,12 @@ def printImmuneQuickFacts(dImmuneTypesByPoke):
 
 def getImmuneTypes(dRankedWeaknessesByPoke):
     return getTargetScore(dRankedWeaknessesByPoke, 0)
+
+def printFourTimesQuickFacts(dFourTimesTypesByPoke):
+    return printSpecificQuickFacts(dFourTimesTypesByPoke, "four-times weak")
+
+def getFourTimesTypes(dRankedWeaknessesByPoke):
+    return getTargetScore(dRankedWeaknessesByPoke, 4)
 
 def printSpecificQuickFacts(dTypesByPoke, sSpecific):
     for sPoke, lTypes in dTypesByPoke.items():
