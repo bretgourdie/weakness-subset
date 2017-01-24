@@ -46,6 +46,7 @@ def calculateWeaknessByPoke(typesByPoke):
                     elif relation == sNo:
                         dPokeWeakness[sFrom] *= 0
 
+        print()
         dWeaknessByPoke[poke] = dPokeWeakness
 
     return dWeaknessByPoke
