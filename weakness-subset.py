@@ -155,6 +155,9 @@ def quickFacts(dRankedWeaknessesByPoke):
     lUsefulTypes = getUsefulTypes(dRankedWeaknessesByPoke)
     printUsefulTypesQuickFacts(lUsefulTypes)
 
+    lUselessTypes = getUselessTypes(dRankedWeaknessesByPoke)
+    printUselessTypesQuickFacts(lUselessTypes)
+
 def getTargetScore(dRankedWeaknessesByPoke, piScore):
     dTypesByPoke = {}
 
@@ -190,24 +193,39 @@ def printSpecificQuickFacts(dTypesByPoke, sSpecific):
             print("{} is {} to {} moves".format(sPoke, sSpecific, ", ".join(lTypes)))
 
 def getUsefulTypes(dRankedWeaknessesByPoke):
-    return getSpecificTypes(dRankedWeaknessesByPoke, 2, sys.maxsize)
-
-def printUsefulTypesQuickFacts(lTypes):
-    return printSpecificTypesQuickFacts(lTypes, "useful (never non-effective)")
-
-def printSpecificTypesQuickFacts(lTypes, sPhrase):
-    print("List of {} types: {}".format(sPhrase, ", ".join(lTypes)))
-
-def getSpecificTypes(dRankedWeaknessesByPoke, piMinInclusive, piMaxExclusive):
-    lSpecificTypes = list(lAllTypes)
+    lUsefulTypes = list(lAllTypes)
 
     for sPoke, lTypes in dRankedWeaknessesByPoke.items():
         for tScoreByType in lTypes:
             sType, iScore = tScoreByType
 
-            if not (iScore >= piMinInclusive and iScore < piMaxExclusive):
-                if sType in lSpecificTypes:
-                    lSpecificTypes.remove(sType)
+            if iScore < 2 and sType in lUsefulTypes:
+                lUsefulTypes.remove(sType)
+
+    return lUsefulTypes
+
+def printUsefulTypesQuickFacts(lTypes):
+    return printSpecificTypesQuickFacts(lTypes, "useful (never non-effective)")
+
+def getUselessTypes(dRankedWeaknessesByPoke):
+    return getSpecificTypes(dRankedWeaknessesByPoke, -1, 1)
+
+def printUselessTypesQuickFacts(lTypes):
+    return printSpecificTypesQuickFacts(lTypes, "useless (worse than non-effective)")
+
+def printSpecificTypesQuickFacts(lTypes, sPhrase):
+    print("List of {} types: {}".format(sPhrase, ", ".join(lTypes)))
+
+def getSpecificTypes(dRankedWeaknessesByPoke, piMinInclusive, piMaxExclusive):
+    lSpecificTypes = []
+
+    for sPoke, lTypes in dRankedWeaknessesByPoke.items():
+        for tScoreByType in lTypes:
+            sType, iScore = tScoreByType
+
+            if iScore >= piMinInclusive and iScore < piMaxExclusive:
+                if sType not in lSpecificTypes:
+                    lSpecificTypes.append(sType)
 
     return lSpecificTypes
 
