@@ -124,6 +124,35 @@ def getTypes(team):
 def teamsAndTypesMatch(team, teamWithTypes):
     return len(team) == len(teamWithTypes)
 
+def quickFacts(dRankedWeaknessesByPoke):
+    print("****Quick Facts!****")
+    
+    dImmuneTypesByPoke = getImmuneTypes(dRankedWeaknessesByPoke)
+    printImmuneQuickFacts(dImmuneTypesByPoke)
+
+def printImmuneQuickFacts(dImmuneTypesByPoke):
+    for sPoke, lImmuneTypes in dImmuneTypesByPoke.items():
+        if len(lImmuneTypes) > 0:
+            print("{} is immune to {} moves".format(sPoke, ", ".join(lImmuneTypes)))
+
+def getImmuneTypes(dRankedWeaknessesByPoke):
+    dImmuneTypesByPoke = {}
+
+    for poke, lScoresByTypes in dRankedWeaknessesByPoke.items():
+        lImmuneTypes = []
+
+        for tScoreByType in lScoresByTypes:
+            sType, iScore = tScoreByType
+
+            if iScore == 0 and sType not in lImmuneTypes:
+                lImmuneTypes.append(sType)
+
+        if len(lImmuneTypes) > 0:
+            dImmuneTypesByPoke[poke] = lImmuneTypes
+
+    return dImmuneTypesByPoke
+
+
 intro()
 team = promptForTeam()
 
@@ -135,8 +164,7 @@ if teamsAndTypesMatch(team, teamWithTypes):
 
     dRanked = rankWeaknesses(dByPoke)
 
-    print(dRanked)
-
+    quickFacts(dRanked)
 else:
     print("teamsAndTypesMatch(team, teamWithTypes) Error: len(team) = {} != len(teamWithTypes) = {}".format(len(team), len(teamWithTypes)))
 
