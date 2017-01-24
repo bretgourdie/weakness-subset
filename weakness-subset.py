@@ -149,12 +149,15 @@ def getTargetScore(dRankedWeaknessesByPoke, piScore):
     return dTypesByPoke
 
 def printImmuneQuickFacts(dImmuneTypesByPoke):
-    for sPoke, lImmuneTypes in dImmuneTypesByPoke.items():
-        if len(lImmuneTypes) > 0:
-            print("{} is immune to {} moves".format(sPoke, ", ".join(lImmuneTypes)))
+    return printSpecificQuickFacts(dImmuneTypesByPoke, "immune")
 
 def getImmuneTypes(dRankedWeaknessesByPoke):
     return getTargetScore(dRankedWeaknessesByPoke, 0)
+
+def printSpecificQuickFacts(dTypesByPoke, sSpecific):
+    for sPoke, lTypes in dTypesByPoke.items():
+        if len(lTypes) > 0:
+            print("{} is {} to {} moves".format(sPoke, sSpecific, ", ".join(lTypes)))
 
 intro()
 team = promptForTeam()
