@@ -32,20 +32,33 @@ def calculateWeaknessByPoke(typesByPoke):
     dWeaknessByPoke = {}
 
     for poke, typeInfo in typesByPoke.items():
+        print("Calculating weaknesses for \"{}\"".format(poke))
+
         dPokeWeakness = {}
 
-        # this is wrong
         for oneTypeInfo in typeInfo:
             name = oneTypeInfo[sName].lower()
+            print("\tDetermining \"{}\" weaknesses/resistances...".format(name))
 
-            for relation in oneTypeInfo:
-                if relation == sHalf:
-                    dPokeWeakness[name] /= 2
-                elif relation == sDouble:
-                    dPokeWeakness[name] *= 2
-                elif relation == sNo:
-                    dPokeWeakness[name] *= 0
+            dDamageRelations = oneTypeInfo[sDamage]
 
+            for relation, lTypes in dDamageRelations.items():
+                for dType in lTypes:
+                    sFrom = dType[sName]
+
+                    # initialize if not in matrix
+                    if relation in [sHalf, sDouble, sNo] and sFrom not in dPokeWeakness:
+                       dPokeWeakness[sFrom] = 1
+                    if relation == sHalf:
+                        dPokeWeakness[sFrom] /= 2
+                    elif relation == sDouble:
+                        dPokeWeakness[sFrom] *= 2
+                    elif relation == sNo:
+                        dPokeWeakness[sFrom] *= 0
+
+        dWeaknessByPoke[poke] = dPokeWeakness
+
+    return dWeaknessByPoke
 
 def determineTypesByPoke(teamWithTypes):
     typesByPoke = {}
