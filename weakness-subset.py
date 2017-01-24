@@ -1,4 +1,4 @@
-import requests, operator
+import requests, operator, sys
 baseUrl = "https://pokeapi.co/"
 sName = "name"
 sDamage = "damage_relations"
@@ -8,6 +8,24 @@ sUrl = "url"
 sHalf = "half_damage_from"
 sDouble = "double_damage_from"
 sNo = "no_damage_from"
+lAllTypes = ["normal",
+             "fire",
+             "fighting",
+             "water",
+             "flying",
+             "grass",
+             "poison",
+             "electric",
+             "ground",
+             "psychic",
+             "rock",
+             "ice",
+             "bug",
+             "dragon",
+             "ghost",
+             "dark",
+             "steel",
+             "fairy"]
 
 def rankWeaknesses(dWeaknessByPoke):
     dRankedSorted = {}
@@ -134,6 +152,9 @@ def quickFacts(dRankedWeaknessesByPoke):
     dFourTimesWeakByPoke = getFourTimesTypes(dRankedWeaknessesByPoke)
     printFourTimesQuickFacts(dFourTimesWeakByPoke)
 
+    lUsefulTypes = getUsefulTypes(dRankedWeaknessesByPoke)
+    printUsefulTypesQuickFacts(lUsefulTypes)
+
 def getTargetScore(dRankedWeaknessesByPoke, piScore):
     dTypesByPoke = {}
 
@@ -167,6 +188,28 @@ def printSpecificQuickFacts(dTypesByPoke, sSpecific):
     for sPoke, lTypes in dTypesByPoke.items():
         if len(lTypes) > 0:
             print("{} is {} to {} moves".format(sPoke, sSpecific, ", ".join(lTypes)))
+
+def getUsefulTypes(dRankedWeaknessesByPoke):
+    return getSpecificTypes(dRankedWeaknessesByPoke, 2, sys.maxsize)
+
+def printUsefulTypesQuickFacts(lTypes):
+    return printSpecificTypesQuickFacts(lTypes, "useful (never non-effective)")
+
+def printSpecificTypesQuickFacts(lTypes, sPhrase):
+    print("List of {} types: {}".format(sPhrase, ", ".join(lTypes)))
+
+def getSpecificTypes(dRankedWeaknessesByPoke, piMinInclusive, piMaxExclusive):
+    lSpecificTypes = list(lAllTypes)
+
+    for sPoke, lTypes in dRankedWeaknessesByPoke.items():
+        for tScoreByType in lTypes:
+            sType, iScore = tScoreByType
+
+            if not (iScore >= piMinInclusive and iScore < piMaxExclusive):
+                if sType in lSpecificTypes:
+                    lSpecificTypes.remove(sType)
+
+    return lSpecificTypes
 
 intro()
 team = promptForTeam()
