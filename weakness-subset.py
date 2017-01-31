@@ -208,7 +208,23 @@ def printUsefulTypesQuickFacts(lTypes):
     return printSpecificTypesQuickFacts(lTypes, "useful (never non-effective)")
 
 def getUselessTypes(dRankedWeaknessesByPoke):
-    return getSpecificTypes(dRankedWeaknessesByPoke, -1, 1)
+    dUselessTypes = {}
+
+    for sPoke, lTypes in dRankedWeaknessesByPoke.items():
+        for tScoreByType in lTypes:
+            sType, iScore = tScoreByType
+
+            if sType not in dUselessTypes:
+                dUselessTypes[sType] = True
+
+            isUseless = iScore < 1
+            hasAlwaysBeenUseless = dUselessTypes[sType]
+
+            dUselessTypes[sType] = isUseless and hasAlwaysBeenUseless
+
+    lUselessTypes = [sType for sType, isUseless in dUselessTypes.items() if isUseless]
+
+    return lUselessTypes
 
 def printUselessTypesQuickFacts(lTypes):
     return printSpecificTypesQuickFacts(lTypes, "useless (worse than non-effective)")
