@@ -264,8 +264,14 @@ def calculateTypeMatrix(dRanked):
     return dTypeMatrix
     
 def printTypeMatrix(dTypeMatrix):
-    print("Type Matrix:")
-    print(dTypeMatrix)
+    print("\n****Type Matrix****")
+
+    maxLen = max(len(sType) for sType in dTypeMatrix.keys())
+
+    for sType, iScore in dTypeMatrix.items():
+        # maxLen describes the longest right padding for sType; read as:
+        # "{:<maxLen>}"
+        print("{:{}}: {:06.5f}".format(sType, maxLen, iScore))
 
 intro()
 team = promptForTeam()
