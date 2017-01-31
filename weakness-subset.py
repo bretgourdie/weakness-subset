@@ -246,7 +246,7 @@ def getSpecificTypes(dRankedWeaknessesByPoke, piMinInclusive, piMaxExclusive):
     return lSpecificTypes
 
 def comprehensiveFacts(dRanked):
-    dTypeMatrix = calcualteTypeMatrix(dRanked)
+    dTypeMatrix = calculateTypeMatrix(dRanked)
     printTypeMatrix(dTypeMatrix)
 
 def calculateTypeMatrix(dRanked):
