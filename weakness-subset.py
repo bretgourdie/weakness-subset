@@ -245,6 +245,28 @@ def getSpecificTypes(dRankedWeaknessesByPoke, piMinInclusive, piMaxExclusive):
 
     return lSpecificTypes
 
+def comprehensiveFacts(dRanked):
+    dTypeMatrix = calcualteTypeMatrix(dRanked)
+    printTypeMatrix(dTypeMatrix)
+
+def calculateTypeMatrix(dRanked):
+    dTypeMatrix = {}
+
+    for sPoke, lTypes in dRanked.items():
+        for tScoreByType in lTypes:
+            sType, iScore = tScoreByType
+            
+            if sType not in dTypeMatrix:
+                dTypeMatrix[sType] = 1
+
+            dTypeMatrix[sType] *= iScore
+
+    return dTypeMatrix
+    
+def printTypeMatrix(dTypeMatrix):
+    print("Type Matrix:")
+    print(dTypeMatrix)
+
 intro()
 team = promptForTeam()
 
@@ -257,6 +279,8 @@ if teamsAndTypesMatch(team, teamWithTypes):
     dRanked = rankWeaknesses(dByPoke)
 
     quickFacts(dRanked)
+
+    comprehensiveFacts(dRanked)
 else:
     print("teamsAndTypesMatch(team, teamWithTypes) Error: len(team) = {} != len(teamWithTypes) = {}".format(len(team), len(teamWithTypes)))
 
