@@ -265,9 +265,10 @@ def calculateTypeMatrix(dRanked):
     return dTypeMatrix
 
 def sortTypeMatrix(dTypeMatrix):
-    lSorted = sorted(dTypeMatrix.items(), key=operator.itemgetter(1), reverse=True)
+    lSecondarySort = sorted(dTypeMatrix.items(), key=operator.itemgetter(0))
+    lPrimarySort = sorted(lSecondarySort, key=operator.itemgetter(1), reverse=True)
 
-    return lSorted
+    return lPrimarySort
     
 def printTypeMatrix(lTypeMatrix):
     print("\n****Type Matrix****")
