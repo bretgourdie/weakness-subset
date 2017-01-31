@@ -257,9 +257,9 @@ def calculateTypeMatrix(dRanked):
             sType, iScore = tScoreByType
             
             if sType not in dTypeMatrix:
-                dTypeMatrix[sType] = 1
+                dTypeMatrix[sType] = 0
 
-            dTypeMatrix[sType] *= iScore
+            dTypeMatrix[sType] += iScore
 
     return dTypeMatrix
     
