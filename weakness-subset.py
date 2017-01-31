@@ -247,7 +247,8 @@ def getSpecificTypes(dRankedWeaknessesByPoke, piMinInclusive, piMaxExclusive):
 
 def comprehensiveFacts(dRanked):
     dTypeMatrix = calculateTypeMatrix(dRanked)
-    printTypeMatrix(dTypeMatrix)
+    lTypeMatrix = sortTypeMatrix(dTypeMatrix)
+    printTypeMatrix(lTypeMatrix)
 
 def calculateTypeMatrix(dRanked):
     dTypeMatrix = {}
@@ -262,13 +263,18 @@ def calculateTypeMatrix(dRanked):
             dTypeMatrix[sType] += iScore
 
     return dTypeMatrix
+
+def sortTypeMatrix(dTypeMatrix):
+    lSorted = sorted(dTypeMatrix.items(), key=operator.itemgetter(1), reverse=True)
+
+    return lSorted
     
-def printTypeMatrix(dTypeMatrix):
+def printTypeMatrix(lTypeMatrix):
     print("\n****Type Matrix****")
 
-    maxLen = max(len(sType) for sType in dTypeMatrix.keys())
+    maxLen = max(len(sType) for sType, iScore in lTypeMatrix)
 
-    for sType, iScore in dTypeMatrix.items():
+    for sType, iScore in lTypeMatrix:
         # maxLen describes the longest right padding for sType; read as:
         # "{:<maxLen>}"
         print("{:{}}: {:06.5f}".format(sType, maxLen, iScore))
